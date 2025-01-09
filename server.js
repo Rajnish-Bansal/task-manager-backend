@@ -9,6 +9,9 @@ const URI = process.env.MONGO_URI
 const SECRET_KEY = process.env.JWT_SECRET
 const PORT = process.env.PORT || 5000
 
+// Establish a MongoDB connection on server start
+let mongoConnectionStatus = 'Pending...';
+
 // Initialize Express app
 const app = express();
 
@@ -17,7 +20,11 @@ app.use(express.json());
 app.use(cors({ origin: 'http://localhost:3000' }));
 
 // Connect to MongoDB
-mongoose.connect(URI).then(() => console.log('Connected to MongoDB'))
+mongoose.connect(URI)
+    .then(() => {
+        console.log('Connected to MongoDB');
+        mongoConnectionStatus = 'Connected to MongoDB successfully'
+    })
     .catch((err) => console.error('MongoDB connection error:', err));
 
 // Define task schema
@@ -52,7 +59,7 @@ const authenticateToken = (req, res, next) => {
 
 // Basic endpoint to check if server is running
 app.get('/', (req, res) => {
-    res.send('Server is running');
+   res.send({ status: 'Server is running', mongoConnectionStatus });
 });
 
 // Endpoint to register a user
