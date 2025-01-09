@@ -3,12 +3,11 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+require('dotenv').config()
 
-// Constants
-const PORT = 5000;
-// const URI = 'mongodb://localhost:27017/taskmanager';
-const URI = "mongodb+srv://rajnishbansal0906:Rajnish%4001@cluster0.dh1hb.mongodb.net/taskmanager?retryWrites=true&w=majority&appName=Cluster0";
-const SECRET_KEY = '123456';  // You should store this in an environment variable
+const URI = process.env.MONGO_URI
+const SECRET_KEY = process.env.JWT_SECRET
+const PORT = process.env.PORT || 5000
 
 // Initialize Express app
 const app = express();
@@ -19,7 +18,7 @@ app.use(cors({ origin: 'http://localhost:3000' }));
 
 // Connect to MongoDB
 mongoose.connect(URI).then(() => console.log('Connected to MongoDB'))
-//     .catch((err) => console.error('MongoDB connection error:', err));
+    .catch((err) => console.error('MongoDB connection error:', err));
 
 // Define task schema
 const taskSchema = new mongoose.Schema({
@@ -154,8 +153,6 @@ app.put('/tasks/:id', authenticateToken, async (req, res) => {
     }
 });
 
-
-
 // Endpoint to delete a task
 app.delete('/tasks/:id', authenticateToken, async (req, res) => {
     const { id } = req.params;
@@ -179,6 +176,7 @@ app.delete('/tasks/:id', authenticateToken, async (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
+
 
 
 // const express = require('express');
