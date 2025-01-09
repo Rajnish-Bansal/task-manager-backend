@@ -17,7 +17,7 @@ const app = express();
 
 // Middleware
 app.use(express.json());
-app.use(cors({ origin: 'http://localhost:3000' }));
+app.use(cors({ origin: 'https://task-manager-43sp4h660-rajnishs-projects.vercel.app/' }));
 
 // Connect to MongoDB
 mongoose.connect(URI)
