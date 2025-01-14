@@ -17,7 +17,7 @@ const app = express();
 
 // Middleware
 app.use(express.json());
-app.use(cors({ origin: 'https://stupendous-kleicha-3eec30.netlify.app' }));
+app.use(cors());
 
 // Connect to MongoDB
 mongoose.connect(URI)
